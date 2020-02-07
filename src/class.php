@@ -96,9 +96,6 @@ class SocialAppLogin {
         ?>
         <h1>Social App Login - Settings</h1>
         <?php
-        // Generate our settings tab list
-        // $tabs = array_combine(array_map(function ($a) { return strtolower($a); }, $apps), $apps);
-        // $default = array_keys($tabs)[0];
 
         $apps = self::APP_LIST;
 
