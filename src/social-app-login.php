@@ -12,6 +12,6 @@ require_once dirname(__FILE__) .'/class.php';
 
 $salPlug = SocialAppLogin::getInstance();
 
-$salPlug::register_app_hooks();
+$salPlug::init_apps();
 
 ?>

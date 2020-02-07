@@ -43,9 +43,14 @@ class SocialAppLogin {
         $this->options = get_option(self::SLUG, $default_options);
     }
 
-    public static function register_app_hooks() {
+    public static function init_apps() {
         foreach (self::APP_LIST as $app) {
             $app_class = self::app_class($app);
+
+            if (method_exists($app_class, 'init')) {
+                $app_class::init(self::app_options($app));
+            }
+
             if (self::app_is_enabled($app)) {
                 $app_class::register_hooks();
             }

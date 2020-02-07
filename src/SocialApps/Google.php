@@ -5,6 +5,17 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 class SocialAppLogin_Google {
     const APP_NAME = 'Google';
 
+    static $instance = false;
+    public $options; // Never modify this structure
+
+    public static function init($opts) {
+        if (!self::$instance) {
+            self::$instance = new self;
+        }
+        self::$instance->options = $opts;
+        return self::$instance;
+    }
+
     public static function register_admin_hooks() {
         // Our admin javascript code
         add_action('admin_enqueue_scripts', __CLASS__ .'::enqueue_admin_scripts');
@@ -30,14 +41,14 @@ class SocialAppLogin_Google {
         ]);
     }
 
-    public static function login_head_additions(array $options) {
+    public static function login_head_additions() {
         $js_url = plugin_dir_url(__FILE__) .'Google/functions.js';
-        $client_id = $options['client_id'];
+        $client_id = self::$instance->options['client_id'];
 
         ?>
-        <script src="<?php $js_url ?>" async></script>
+        <script src="<?php echo $js_url ?>" async></script>
         <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
-        <meta name="google-signin-client_id" content="<?php $client_id ?>.apps.googleusercontent.com">
+        <meta name="google-signin-client_id" content="<?php echo $client_id ?>.apps.googleusercontent.com">
         <style>
             .mb-15 {
                 margin-bottom: 15px;
@@ -76,6 +87,8 @@ class SocialAppLogin_Google {
             </button>
         </div>
 
+        <p>A Client ID and Client Secret can be obtained by creating an "OAuth client ID" <a target="_blank" href="https://console.cloud.google.com/apis/credentials">here</a></p>
+
         <table class="form-table">
             <tr>
                 <th><label for="enable_google">Enable App</label></th>
@@ -102,7 +115,6 @@ class SocialAppLogin_Google {
                         placeholder="Client ID"
                         value="<?php echo $options['client_id']; ?>"
                     >
-                    <p>A client ID can be obtained by following the "Get the API key" <a target="_blank" href="https://developers.google.com/maps/documentation/javascript/get-api-key#get-the-api-key">directions here</a></p>
                 </td>
             </tr>
             <tr>

@@ -1,4 +1,4 @@
-function onSuccess (googleUser) {
+function sal_onsuccess_google (googleUser) {
     var profile = googleUser.getBasicProfile();
     console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
     console.log('Name: ' + profile.getName());
@@ -6,19 +6,19 @@ function onSuccess (googleUser) {
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
 
-function onFailure () {
+function sal_onfailure_google () {
     console.log('ouch!');
 }
 
 
-function renderButton () =>  {
+function renderButton () {
     gapi.signin2.render('my-signin', {
         'scope': 'profile email',
-        'width': 240,
+        'width': 270,
         'height': 50,
         'longtitle': true,
         'theme': 'light',
-        'onsuccess': onSuccess,
-        'onfailure': onFailure,
+        'onsuccess': sal_onsuccess_google,
+        'onfailure': sal_onfailure_google,
     });
 }
